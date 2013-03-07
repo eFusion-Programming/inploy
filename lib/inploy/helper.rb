@@ -37,7 +37,7 @@ module Inploy
       env_sources.each do |src|
         list = list + "source " + src + " "
       end
-      return list = "&& "
+      return list + "&& "
     end
 
     def application_path
