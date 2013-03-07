@@ -69,6 +69,8 @@ module Inploy
     end
 
     def local_update
+      fetch_changes
+      check_assets_and_migrations
       update_code
       after_update_code
     end
@@ -102,7 +104,7 @@ module Inploy
       rake_if_included "barista:brew"
       rake_if_included "asset:packager:build_all"
       rake_if_included "hoptoad:deploy RAILS_ENV=#{environment} TO=#{environment} REPO=#{repository} REVISION=#{`git log | head -1 | cut -d ' ' -f 2`}"
-      rake_if_included "assets:precompile"
+      rake_if_included "assets:precompile" if @has_assets == true
       notify_new_relic
       callback :before_restarting_server
       restart_server

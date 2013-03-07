@@ -64,8 +64,34 @@ module Inploy
       end
     end
 
+    def fetch_changes
+      `git fetch`
+    end
+
+    def check_assets_and_migrations
+      files = `git diff #{environment} origin/#{environment} --name-only`.gsub("\n"," ").split(" ")
+      files.each do |f| 
+        has_migration = f.include?("db/migrate")
+        has_asset = f.include?("app/assets")
+        
+        if has_migration == true 
+          @has_migation == true
+        end
+
+        if has_asset == true
+          @has_asset == true
+        end
+
+        if has_asset == true && has_migration == true
+          break
+        end
+      end
+    end
+
     def migrate_database
-      rake "db:migrate RAILS_ENV=#{environment}" unless skip_step?('migrate_database')
+      if @has_migration == true
+        rake "db:migrate RAILS_ENV=#{environment}" unless skip_step?('migrate_database')
+      end
     end
 
     def tasks
