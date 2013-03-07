@@ -34,8 +34,14 @@ module Inploy
 
     def source_list
       list = ""
+      count = 0
       env_sources.each do |src|
-        list = list + "source " + src + " "
+        count += 1
+        if count == env_sources.size
+          list = list + "source " + src + " "
+        else
+          list = list + "source " + src + " &&"
+        end
       end
       return list + "&& "
     end
