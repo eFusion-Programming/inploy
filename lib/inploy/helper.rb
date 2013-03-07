@@ -40,7 +40,7 @@ module Inploy
         if count == env_sources.size
           list = list + "source " + src + " "
         else
-          list = list + "source " + src + " &&"
+          list = list + "source " + src + " && "
         end
       end
       return list + "&& "
