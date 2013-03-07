@@ -3,15 +3,16 @@ module Inploy
     include Helper
     include DSL
 
-    attr_accessor :repository, :user, :application, :hosts, :path, :app_folder, :ssh_opts, :branch, :environment, :port, :skip_steps, :cache_dirs, :sudo, :login_shell, :bundler_opts
+    attr_accessor :repository, :user, :application, :hosts, :path, :app_folder, :ssh_opts, :branch, :environment, :env_sources, :port, :skip_steps, :cache_dirs, :sudo, :login_shell, :bundler_opts
 
     define_callbacks :before_git, :after_git, :after_setup, :before_restarting_server, :after_restarting_server
 
     def initialize
       self.server = :passenger
       @cache_dirs = %w(public/cache)
-      @branch = 'master'
-      @environment = 'production'
+      @branch = "master"
+      @environment = "production"
+      @env_sources = %w()
       @user = "deploy"
       @path = "/var/local/apps"
       @app_folder = nil
@@ -54,7 +55,7 @@ module Inploy
     end
 
     def remote_update
-      remote_run "cd #{application_path} && #{sudo_if_should}rake inploy:local:update RAILS_ENV=#{environment} environment=#{environment}#{skip_steps_cmd}"
+      remote_run "#{source_list}cd #{application_path} && #{sudo_if_should}rake inploy:local:update RAILS_ENV=#{environment} environment=#{environment}#{skip_steps_cmd}"
     end
 
     def remote_rake(task)

@@ -32,6 +32,14 @@ module Inploy
       string.to_s.gsub(/\/(.?)/) { "::" + $1.upcase }.gsub(/(^|_)(.)/) { $2.upcase }
     end
 
+    def source_list
+      list = ""
+      env_sources.each do |src|
+        list = list + "source " + src + " "
+      end
+      return list = "&& "
+    end
+
     def application_path
       app_folder.nil? ? "#{path}/#{application}" : "#{path}/#{application}/#{app_folder}"
     end
