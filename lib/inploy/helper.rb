@@ -103,7 +103,7 @@ module Inploy
     end
 
     def bundle_cmd
-      "bundle install #{bundler_opts || '--deployment --without development test cucumber'}"
+      "bundle install #{bundler_opts}"
     end
 
     def bundle_install
