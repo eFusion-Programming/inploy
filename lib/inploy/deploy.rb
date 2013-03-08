@@ -70,7 +70,8 @@ module Inploy
 
     def local_update
       fetch_changes
-      #check_assets_and_migrations
+      check_assets_and_migrations
+      mock_after_update_code
       #update_code
       #after_update_code
     end
@@ -89,6 +90,11 @@ module Inploy
 
     def bundle
       " && #{bundle_cmd}" if using_bundler?
+    end
+
+    def mock_after_update_code
+      migrate_database
+      rake_if_included "assets:precompile" if @has_assets == true
     end
 
     def after_update_code
