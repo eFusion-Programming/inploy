@@ -98,6 +98,10 @@ module Inploy
       `rake -T`
     end
 
+    def update_inploy
+      `bundle update inploy`
+    end
+
     def bundle_cmd
       "bundle install #{bundler_opts || '--deployment --without development test cucumber'}"
     end
