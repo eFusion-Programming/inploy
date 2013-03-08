@@ -70,9 +70,9 @@ module Inploy
 
     def local_update
       fetch_changes
-      check_assets_and_migrations
-      update_code
-      after_update_code
+      #check_assets_and_migrations
+      #update_code
+      #after_update_code
     end
 
     def update_code
